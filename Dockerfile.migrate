@@ -1,0 +1,5 @@
+FROM mashiox/yii-app
+
+COPY src/bin/migrate-up.sh /opt/app/bin/migrate-up.sh
+
+ENTRYPOINT ["bash", "-x", "/opt/app/bin/migrate-up.sh"]

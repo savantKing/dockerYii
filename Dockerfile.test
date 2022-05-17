@@ -1,0 +1,20 @@
+FROM mashiox/yii-app
+
+USER root
+
+RUN echo 'alias codecept="/opt/app/vendor/bin/codecept"' >> ~/.bashrc
+
+
+USER www-data
+
+ADD ./tests/codeception /opt/app/protected/tests/
+COPY ./tests/bin/setup.sh /opt/app/bin/setup.sh
+COPY ./tests/bin/test.sh /opt/app/bin/test.sh
+COPY ./tests/test.php /opt/app/test.php
+
+
+RUN ./composer install --dev
+
+USER root
+
+ENTRYPOINT ["bash", "-x", "/opt/app/bin/setup.sh"]

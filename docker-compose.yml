@@ -1,0 +1,25 @@
+version: '3'
+services:
+  web:
+    image: mashiox/yii-app
+    volumes:
+      - "/home/mwalther/projects/yii-codecept/src/protected/migrations:/opt/app/protected/migrations"
+      # - "/home/mwalther/projects/yii-codecept/src/protected/tests:/opt/app/protected/tests"
+      # - "/home/mwalther/projects/yii-codecept/test:/opt/app/protected/tests"
+    ports:
+      - 8001:80
+    networks:
+      - web-stack
+    command: "apache2-foreground"
+  db:
+    image: mashiox/yii-db
+    ports:
+      - 3306:3306
+    networks:
+      - web-stack
+  migrate:
+    image: mashiox/yii-migrate
+    networks:
+      - web-stack
+networks:
+  web-stack:
